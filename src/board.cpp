@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <deque>
 #include <iostream>
+#include <string.h>
 
 #include "board.hpp"
 #include "constants.hpp"
@@ -28,6 +29,10 @@ Board::Board() {
         for (int j = 0; j < ROW_SIZE; j++) {
             cells[i + (j*ROW_SIZE)].rect = {i * CELL_WIDTH, j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT};
         }
+    }
+
+    for (int i = 0; i < 64; i++) {
+        strcpy(cells[i].piece.square_notation, get_square_notation(i));
     }
 }
 
