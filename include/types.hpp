@@ -9,7 +9,6 @@ typedef struct {
         int win_w; int win_h;
 } window_config;
 
-
 enum PieceType {
     EMPTY = 0,
     W_PAWN, W_KNIGHT, W_BISHOP,

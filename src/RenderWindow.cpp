@@ -3,6 +3,7 @@
 #include <SDL_events.h>
 #include <SDL_render.h>
 #include <iostream>
+#include <math.h>
 
 #include "RenderWindow.hpp"
 #include "constants.hpp"
@@ -106,6 +107,8 @@ void RenderWindow::handle_inputs() {
 			}
 		} else if (event.type == SDL_MOUSEBUTTONDOWN) {
             if (event.button.button == SDL_BUTTON_LEFT) {
+                int btn_coord = board.get_array_coord(event.button.x / CELL_WIDTH, event.button.y / CELL_HEIGHT);
+                cout << board.get_square_notation(btn_coord) << endl;
             }
         }
 	}

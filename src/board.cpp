@@ -1,7 +1,11 @@
+#include <cstdlib>
 #include <deque>
+#include <iostream>
 
 #include "board.hpp"
 #include "constants.hpp"
+
+using namespace std;
 
 Board::Board() {
     std::deque<PieceType> init_pos = {
@@ -25,5 +29,32 @@ Board::Board() {
             cells[i + (j*ROW_SIZE)].rect = {i * CELL_WIDTH, j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT};
         }
     }
+}
+
+int Board::get_array_coord(int x, int y) {
+    return (x + (y*ROW_SIZE));
+}
+
+char* Board::get_square_notation(int x) {
+    if (x > 63) {
+        cout << "the value must not be greater than 63" << endl;
+        return nullptr;
+    }
+
+    char temp[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
+
+    int quotient = x / ROW_SIZE;
+    int remainder = x % ROW_SIZE;
+
+    char rank = (ROW_SIZE - quotient) + '0';
+    char file = temp[remainder];
+
+    char* out = (char*) malloc(sizeof(char) * 3);
+
+    out[0] = file;
+    out[1] = rank;
+    out[2] = '\0';
+
+    return out;
 }
 
