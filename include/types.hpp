@@ -22,6 +22,7 @@ struct ChessPiece {
     SDL_Rect dst;
     SDL_Point pos;
     PieceType type;
+    char square_notation[2];
 };
 
 struct Cell {
