@@ -8,7 +8,7 @@
 class Board {
     public:
         Board();
-        int get_array_coord(int x, int y);
+        int mouse_to_array(int x, int y);
         int square_to_arr(char* str);
         char* arr_to_square(int x);
         char* get_piece_type(int x);

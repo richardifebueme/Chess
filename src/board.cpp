@@ -36,7 +36,7 @@ Board::Board() {
     }
 }
 
-int Board::get_array_coord(int x, int y) {
+int Board::mouse_to_array(int x, int y) {
     return (x + (y*ROW_SIZE));
 }
 
