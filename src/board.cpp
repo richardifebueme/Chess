@@ -67,8 +67,9 @@ bool Board::is_valid_square(int x) {
 
 
 int Board::mouse_to_array(int x, int y) {
-    int row = x / CELL_WIDTH;
-    int col = y / CELL_HEIGHT;
+    if (x < BOARD_X || x > BOARD_X + BOARD_WIDTH || y < BOARD_Y || y > BOARD_Y + BOARD_HEIGHT) return -1;
+    int row = (x / CELL_WIDTH) - 1;
+    int col = (y / CELL_HEIGHT) - 1;
     return (row + (col*ROW_SIZE));
 }
 

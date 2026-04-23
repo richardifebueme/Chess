@@ -108,7 +108,8 @@ void RenderWindow::handle_inputs() {
 		} else if (event.type == SDL_MOUSEBUTTONDOWN) {
             if (event.button.button == SDL_BUTTON_LEFT) {
                 int btn_coord = board.mouse_to_array(event.button.x, event.button.y);
-                cout << board.count_valid_moves(btn_coord) << endl;
+                cout << btn_coord << endl;
+                // cout << board.get_piece_type(btn_coord) << endl;
             }
         }
 	}
