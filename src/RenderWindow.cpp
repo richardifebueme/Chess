@@ -108,7 +108,7 @@ void RenderWindow::handle_inputs() {
 		} else if (event.type == SDL_MOUSEBUTTONDOWN) {
             if (event.button.button == SDL_BUTTON_LEFT) {
                 int btn_coord = board.get_array_coord(event.button.x / CELL_WIDTH, event.button.y / CELL_HEIGHT);
-                cout << board.get_square_notation(btn_coord) << endl;
+                cout << board.get_piece_type(btn_coord) << endl;
             }
         }
 	}

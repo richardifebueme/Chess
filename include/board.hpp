@@ -9,7 +9,9 @@ class Board {
     public:
         Board();
         int get_array_coord(int x, int y);
-        char* get_square_notation(int x);
+        int square_to_arr(char* str);
+        char* arr_to_square(int x);
+        char* get_piece_type(int x);
 
         Cell cells[64];
     private:
