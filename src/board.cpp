@@ -37,7 +37,9 @@ Board::Board() {
 }
 
 int Board::mouse_to_array(int x, int y) {
-    return (x + (y*ROW_SIZE));
+    int row = x / CELL_WIDTH;
+    int col = y / CELL_HEIGHT;
+    return (row + (col*ROW_SIZE));
 }
 
 int Board::square_to_arr(char* str) {
