@@ -10,6 +10,12 @@
 
 
 class RenderWindow {
+    private:
+        SDL_Window* win = nullptr;
+        SDL_Renderer* rend = nullptr;
+        Board board;
+        window_config win_desc = {"CHESS", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT};
+        bool is_running;
     public:
         RenderWindow();
         void load_board();
@@ -20,10 +26,4 @@ class RenderWindow {
         void handle_inputs();
         void cleanUp();
         bool isRunning() { return is_running; }
-    private:
-        SDL_Window* win = nullptr;
-        SDL_Renderer* rend = nullptr;
-        Board board;
-        window_config win_desc = {"CHESS", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT};
-        bool is_running;
 };

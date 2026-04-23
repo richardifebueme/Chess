@@ -27,7 +27,7 @@ Board::Board() {
 
     for (int i = 0; i < ROW_SIZE; i++) {
         for (int j = 0; j < ROW_SIZE; j++) {
-            cells[i + (j*ROW_SIZE)].rect = {i * CELL_WIDTH, j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT};
+            cells[i + (j*ROW_SIZE)].rect = {i * CELL_WIDTH + BOARD_X, j * CELL_HEIGHT + BOARD_Y, CELL_WIDTH, CELL_HEIGHT};
         }
     }
 
@@ -35,6 +35,36 @@ Board::Board() {
         strcpy(cells[i].piece.square_notation, arr_to_square(i));
     }
 }
+
+char Board::get_file(int x) {
+    if (!is_valid_square(x)) {
+        cout << "the value must not be greater than 63" << endl;
+        return -1;
+    }
+
+    char file = (x % ROW_SIZE) + 97;
+    return file;
+}
+
+int Board::get_rank(int x) {
+    if (!is_valid_square(x)) {
+        cout << "the value must not be greater than 63" << endl;
+        return -1;
+    }
+
+    int rank = ROW_SIZE - (x / ROW_SIZE);
+
+    return rank;
+}
+
+bool Board::is_valid_square(int x) {
+    if (x > 0 && x < 64) {
+        return true;
+    }
+
+    return false;
+}
+
 
 int Board::mouse_to_array(int x, int y) {
     int row = x / CELL_WIDTH;
@@ -103,3 +133,42 @@ char* Board::get_piece_type(int x) {
     return out;
 }
 
+int Board::count_valid_moves(int x) {
+    int valid_moves = 0;
+    switch(cells[x].piece.type) {
+        case EMPTY: return valid_moves;
+        case W_PAWN: 
+                {
+                    if (get_rank(x) == 2) {
+                        valid_moves += 2;
+                    }
+                    int capture_coords[] = {x - 7, x - 9};
+                    for (int coord : capture_coords) {
+                        if (is_valid_square(coord) && strcmp(get_piece_type(coord), "EMPTY") && get_rank(coord) != get_rank(x)) {
+                            valid_moves++;
+                        }
+                    }
+                 }
+
+                    return valid_moves;
+        case B_PAWN: break;
+
+
+        case W_KNIGHT:
+        case B_KNIGHT:
+
+        case W_BISHOP:
+        case B_BISHOP:
+
+        case W_ROOK:
+        case B_ROOK:
+
+        case W_QUEEN:
+        case B_QUEEN:
+
+        case W_KING:
+        case B_KING:
+          break;
+    }
+    return valid_moves;
+}
