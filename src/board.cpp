@@ -157,54 +157,65 @@ void Board::get_valid_moves(int x, int* arr) {
     switch(cells[x].piece.type) {
         case EMPTY: return;
         case W_PAWN: 
-                {
-                    if (get_rank(x) == 2) {
-                        get_squares(x, 2, arr, NORTH);
-                    }
+        {
+            if (get_rank(x) == 2) {
+                get_squares(x, 2, arr, NORTH);
+            }
 
-                    int capture_coords[] = {x - 7, x - 9};
-                    if (is_valid_square(capture_coords[0]) && strcmp(get_piece_type(capture_coords[0]), "EMPTY") && get_rank(capture_coords[0]) != get_rank(x)) {
-                        get_squares(x, 1, arr, NORTH_EAST);
-                    }
+            int capture_coords[] = {x - 7, x - 9};
+            if (is_valid_square(capture_coords[0]) && strcmp(get_piece_type(capture_coords[0]), "EMPTY") && get_rank(capture_coords[0]) != get_rank(x)) {
+                get_squares(x, 1, arr, NORTH_EAST);
+            }
 
-                    if (is_valid_square(capture_coords[1]) && strcmp(get_piece_type(capture_coords[1]), "EMPTY") && get_rank(capture_coords[1]) != get_rank(x)) {
-                        get_squares(x, 1, arr, NORTH_WEST);
-                    }
-                 }
+            if (is_valid_square(capture_coords[1]) && strcmp(get_piece_type(capture_coords[1]), "EMPTY") && get_rank(capture_coords[1]) != get_rank(x)) {
+                get_squares(x, 1, arr, NORTH_WEST);
+            }
+        }
 
-                break;
+break;
         case B_PAWN: break;
 
 
         case W_KNIGHT:
         case B_KNIGHT:
+            get_squares(x, 1, arr, K_NORTH_EAST);
+            get_squares(x, 1, arr, K_NORTH_WEST);
+            get_squares(x, 1, arr, K_SOUTH_EAST);
+            get_squares(x, 1, arr, K_SOUTH_WEST);
+            get_squares(x, 1, arr, K_NORTH_NORTH_EAST);
+            get_squares(x, 1, arr, K_NORTH_NORTH_WEST);
+            get_squares(x, 1, arr, K_SOUTH_SOUTH_EAST);
+            get_squares(x, 1, arr, K_SOUTH_SOUTH_WEST);
+            break;
 
         case W_BISHOP:
         case B_BISHOP:
-                     get_squares(x, 8, arr, NORTH_EAST);
-                     get_squares(x, 8, arr, NORTH_WEST);
-                     get_squares(x, 8, arr, SOUTH_EAST);
-                     get_squares(x, 8, arr, SOUTH_WEST);
-                     break;
+            get_squares(x, 8, arr, NORTH_EAST);
+            get_squares(x, 8, arr, NORTH_WEST);
+            get_squares(x, 8, arr, SOUTH_EAST);
+            get_squares(x, 8, arr, SOUTH_WEST);
+            break;
 
         case W_ROOK:
         case B_ROOK:
-                     get_squares(x, 8, arr, NORTH);
-                     get_squares(x, 8, arr, SOUTH);
-                     get_squares(x, 8, arr, EAST);
-                     get_squares(x, 8, arr, WEST);
-                     break;
+            get_squares(x, 8, arr, NORTH);
+            get_squares(x, 8, arr, SOUTH);
+            get_squares(x, 8, arr, EAST);
+            get_squares(x, 8, arr, WEST);
+            break;
 
         case W_QUEEN:
         case B_QUEEN:
 
         case W_KING:
-        case B_KING:
-                     Direction dirs[] = {NORTH, SOUTH, EAST, WEST, NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST};
-                     for (auto d : dirs) {
-                         get_squares(x, 1, arr, d);
-                     }
-          break;
+        case B_KING: 
+            {
+                Direction dirs[] = {NORTH, SOUTH, EAST, WEST, NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST};
+                for (auto d : dirs) {
+                 get_squares(x, 1, arr, d);
+                }
+                break;
+            }
     }
 }
 
@@ -226,7 +237,16 @@ void Board::get_squares(int start_square, int rank, int* square_lst, Direction d
         case NORTH_WEST: increment = -9; break;
         case SOUTH_EAST: increment = 9; break;
         case SOUTH_WEST: increment = 7; break;
-    }
+        case K_NORTH_EAST: increment = -6; break;
+        case K_NORTH_WEST: increment = -10; break;
+        case K_SOUTH_EAST: increment = 10; break;
+        case K_SOUTH_WEST: increment = 6;
+        case K_NORTH_NORTH_EAST: increment = -15; break;
+        case K_NORTH_NORTH_WEST: increment = -17; break;
+        case K_SOUTH_SOUTH_EAST: increment = 17; break;
+        case K_SOUTH_SOUTH_WEST: increment = 15; break;
+          break;
+        }
 
     int size = square_lst[0];
     for (int i = 1; i <= rank; i++) {

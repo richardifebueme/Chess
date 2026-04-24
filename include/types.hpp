@@ -17,7 +17,15 @@ enum Direction {
     NORTH_EAST,
     NORTH_WEST,
     SOUTH_EAST,
-    SOUTH_WEST
+    SOUTH_WEST,
+    K_NORTH_EAST,
+    K_NORTH_WEST,
+    K_SOUTH_EAST,
+    K_SOUTH_WEST,
+    K_NORTH_NORTH_EAST,
+    K_NORTH_NORTH_WEST,
+    K_SOUTH_SOUTH_EAST,
+    K_SOUTH_SOUTH_WEST,
 };
 
 enum PieceType {
