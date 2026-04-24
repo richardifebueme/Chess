@@ -136,8 +136,9 @@ void RenderWindow::handle_inputs() {
             if (event.button.button == SDL_BUTTON_LEFT) {
                 selected_x = event.button.x;
                 selected_y = event.button.y;
-                // int btn_coord = board.mouse_to_array(event.button.x, event.button.y);
-                // cout << btn_coord << endl;
+            } else if (event.button.button == SDL_BUTTON_RIGHT) {
+                int btn_coord = board.mouse_to_array(event.button.x, event.button.y);
+                cout << btn_coord << endl;
             }
         }
 	}
