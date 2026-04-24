@@ -5,6 +5,7 @@
 
 #include "board.hpp"
 #include "constants.hpp"
+#include "types.hpp"
 
 using namespace std;
 
@@ -58,13 +59,19 @@ int Board::get_rank(int x) {
 }
 
 bool Board::is_valid_square(int x) {
-    if (x > 0 && x < 64) {
+    if (x >= 0 && x < 64) {
         return true;
     }
 
     return false;
 }
 
+bool Board::is_empty_at(int x, int y) {
+    int arr_coord = mouse_to_array(x, y);
+    if (cells[arr_coord].piece.type == EMPTY) return true;
+
+    return false;
+}
 
 int Board::mouse_to_array(int x, int y) {
     if (x < BOARD_X || x > BOARD_X + BOARD_WIDTH || y < BOARD_Y || y > BOARD_Y + BOARD_HEIGHT) return -1;
@@ -134,24 +141,38 @@ char* Board::get_piece_type(int x) {
     return out;
 }
 
-int Board::count_valid_moves(int x) {
-    int valid_moves = 0;
+void Board::get_valid_moves(int x, int* arr) {
+    if (x == -1) {
+        arr[0] = -1;
+        return;
+    }
+
+    arr[0] = 0;
+
+    if (!is_valid_square(x)) {
+        cout << x << " is an invalid square" << endl;
+        return;
+    }
+
     switch(cells[x].piece.type) {
-        case EMPTY: return valid_moves;
+        case EMPTY: return;
         case W_PAWN: 
                 {
                     if (get_rank(x) == 2) {
-                        valid_moves += 2;
+                        get_squares(x, 2, arr, NORTH);
                     }
+
                     int capture_coords[] = {x - 7, x - 9};
-                    for (int coord : capture_coords) {
-                        if (is_valid_square(coord) && strcmp(get_piece_type(coord), "EMPTY") && get_rank(coord) != get_rank(x)) {
-                            valid_moves++;
-                        }
+                    if (is_valid_square(capture_coords[0]) && strcmp(get_piece_type(capture_coords[0]), "EMPTY") && get_rank(capture_coords[0]) != get_rank(x)) {
+                        get_squares(x, 1, arr, NORTH_EAST);
+                    }
+
+                    if (is_valid_square(capture_coords[1]) && strcmp(get_piece_type(capture_coords[1]), "EMPTY") && get_rank(capture_coords[1]) != get_rank(x)) {
+                        get_squares(x, 1, arr, NORTH_WEST);
                     }
                  }
 
-                    return valid_moves;
+                break;
         case B_PAWN: break;
 
 
@@ -160,16 +181,59 @@ int Board::count_valid_moves(int x) {
 
         case W_BISHOP:
         case B_BISHOP:
+                     get_squares(x, 8, arr, NORTH_EAST);
+                     get_squares(x, 8, arr, NORTH_WEST);
+                     get_squares(x, 8, arr, SOUTH_EAST);
+                     get_squares(x, 8, arr, SOUTH_WEST);
+                     break;
 
         case W_ROOK:
         case B_ROOK:
+                     get_squares(x, 8, arr, NORTH);
+                     get_squares(x, 8, arr, SOUTH);
+                     get_squares(x, 8, arr, EAST);
+                     get_squares(x, 8, arr, WEST);
+                     break;
 
         case W_QUEEN:
         case B_QUEEN:
 
         case W_KING:
         case B_KING:
+                     Direction dirs[] = {NORTH, SOUTH, EAST, WEST, NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST};
+                     for (auto d : dirs) {
+                         get_squares(x, 1, arr, d);
+                     }
           break;
     }
-    return valid_moves;
+}
+
+void Board::get_squares(int start_square, int rank, int* square_lst, Direction dir) {
+    if (rank < 1) {
+        cout << "The rank must be at least one" << endl;
+        return;
+    }
+
+    int val;
+    int increment;
+
+    switch (dir) {
+        case NORTH: increment = -8; break;
+        case SOUTH: increment = 8; break;
+        case EAST: increment = 1; break;
+        case WEST: increment = -1; break;
+        case NORTH_EAST: increment = -7; break;
+        case NORTH_WEST: increment = -9; break;
+        case SOUTH_EAST: increment = 9; break;
+        case SOUTH_WEST: increment = 7; break;
+    }
+
+    int size = square_lst[0];
+    for (int i = 1; i <= rank; i++) {
+        val = start_square + (increment * i);
+        if (is_valid_square(val)) {
+            square_lst[size + i] = val;
+            square_lst[0]++;
+        }
+    }
 }
