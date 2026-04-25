@@ -12,7 +12,7 @@ class Board {
         char get_file(int x);
         int get_rank(int x);
         bool is_valid_square(int x);
-        bool is_empty_at(int x, int y);
+        bool is_empty_at(int square);
         int mouse_to_array(int x, int y);
         int square_to_arr(char* str);
         char* arr_to_square(int x);

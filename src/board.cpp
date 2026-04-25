@@ -66,9 +66,8 @@ bool Board::is_valid_square(int x) {
     return false;
 }
 
-bool Board::is_empty_at(int x, int y) {
-    int arr_coord = mouse_to_array(x, y);
-    if (cells[arr_coord].piece.type == EMPTY) return true;
+bool Board::is_empty_at(int square) {
+    if (cells[square].piece.type == EMPTY) return true;
 
     return false;
 }
