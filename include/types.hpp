@@ -9,21 +9,25 @@ typedef struct {
         int win_w; int win_h;
 } window_config;
 
+enum GameState {
+    IDLE,
+    PIECE_SELECTED,
+    PIECE_MOVE
+};
+
 enum Direction {
     NORTH = 0,
-    SOUTH,
-    EAST,
-    WEST,
-    NORTH_EAST,
-    NORTH_WEST,
-    SOUTH_EAST,
-    SOUTH_WEST,
-    K_NORTH_EAST,
-    K_NORTH_WEST,
-    K_SOUTH_EAST,
-    K_SOUTH_WEST,
+    SOUTH, EAST, WEST,
+
+    NORTH_EAST, NORTH_WEST,
+    SOUTH_EAST, SOUTH_WEST,
+
+    K_NORTH_EAST, K_NORTH_WEST,
+    K_SOUTH_EAST, K_SOUTH_WEST,
+
     K_NORTH_NORTH_EAST,
     K_NORTH_NORTH_WEST,
+
     K_SOUTH_SOUTH_EAST,
     K_SOUTH_SOUTH_WEST,
 };
