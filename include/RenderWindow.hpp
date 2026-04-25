@@ -18,6 +18,7 @@ class RenderWindow {
         bool is_running;
         int last_clicked = -1;
         int selected_square = -1;
+        GameState state = IDLE;
     public:
         RenderWindow();
         void load_board();

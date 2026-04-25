@@ -26,11 +26,6 @@ RenderWindow::RenderWindow() {
         is_running = false;
     }
 
-    for (int i = 0; i < 64; i++) {
-        if (board.cells[i].piece.type == EMPTY)
-            board.cells[i].piece.tex = nullptr;
-        else board.cells[i].piece.tex = load_piece_texture(board.cells[i].piece.type);
-    }
 }
 
 SDL_Texture* RenderWindow::load_piece_texture(PieceType type) {
@@ -80,17 +75,22 @@ SDL_Texture* RenderWindow::load_texture(const char* filepath) {
 
 void RenderWindow::load_pieces() {
     for (int i = 0; i < 64; i++) {
+        if (board.cells[i].piece.type == EMPTY)
+            board.cells[i].piece.tex = nullptr;
+        else board.cells[i].piece.tex = load_piece_texture(board.cells[i].piece.type);
+    }
+
+    for (int i = 0; i < 64; i++) {
         board.cells[i].piece.dst = {board.cells[i].rect.x, board.cells[i].rect.y, CELL_WIDTH, CELL_HEIGHT};
         SDL_RenderCopy(rend, board.cells[i].piece.tex, nullptr, &board.cells[i].piece.dst);
     }
 }
 
 void RenderWindow::display_valid_moves(int square) {
-    // SDL_SetRenderDrawBlendMode(rend, SDL_BLENDMODE_BLEND);
-    // SDL_SetRenderDrawColor(rend, 0, 0, 0, 100); // semi-transparent
-    SDL_SetRenderDrawColor(rend, 255, 255, 255, 255);
-
     if (!board.is_empty_at(square)) {
+        // SDL_SetRenderDrawBlendMode(rend, SDL_BLENDMODE_BLEND);
+        // SDL_SetRenderDrawColor(rend, 0, 0, 0, 100); // semi-transparent
+        SDL_SetRenderDrawColor(rend, 255, 255, 255, 255);
 
         // get valid moves
         int moves_arr[28];
@@ -115,11 +115,38 @@ void RenderWindow::render() {
     load_board();
     load_pieces();
 
-    if (selected_square != -1) {
+    // if (selected_square != -1) {
+    //     display_valid_moves(selected_square);
+    // }
+
+    switch (state) {
+    case IDLE:
+        if (last_clicked != -1) {
+            selected_square = last_clicked;
+            last_clicked = -1;
+            state = PIECE_SELECTED;
+        }
+        break;
+
+    case PIECE_SELECTED:
         display_valid_moves(selected_square);
+        if (last_clicked != -1) {
+            if (board.is_valid_move(selected_square, last_clicked)) {
+                board.move_piece(selected_square, last_clicked);
+                selected_square = -1;
+                last_clicked = -1;
+            } 
+            state = IDLE;
+        }
+        break;
+
+    case PIECE_MOVE:
+        // animations... someday
+        state = IDLE;
+        break;
     }
 
-	SDL_RenderPresent(rend);
+        SDL_RenderPresent(rend);
 }
 
 void RenderWindow::handle_inputs() {
@@ -134,10 +161,10 @@ void RenderWindow::handle_inputs() {
 			}
 		} else if (event.type == SDL_MOUSEBUTTONDOWN) {
             if (event.button.button == SDL_BUTTON_LEFT) {
-                selected_square = board.mouse_to_array(event.button.x, event.button.y);
+                last_clicked = board.mouse_to_array(event.button.x, event.button.y);
             } else if (event.button.button == SDL_BUTTON_RIGHT) {
                 int btn_coord = board.mouse_to_array(event.button.x, event.button.y);
-                cout << btn_coord << endl;
+                cout << board.get_piece_type(btn_coord) << endl;
             }
         }
 	}
