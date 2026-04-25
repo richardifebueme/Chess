@@ -258,8 +258,8 @@ void Board::get_squares(int start_square, int rank, int* square_lst, Direction d
     }
 }
 
-void Board::move_piece(int piece_square, int dest) {
-    cells[dest].piece.type = cells[piece_square].piece.type;
-    cells[piece_square].piece.type = EMPTY;
+void Board::move_piece(int selected_square, int target_square) {
+    cells[target_square].piece.type = cells[selected_square].piece.type;
+    cells[selected_square].piece.type = EMPTY;
 }
 
