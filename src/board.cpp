@@ -188,7 +188,7 @@ void Board::get_valid_moves(int x, int* arr) {
         {
             if (get_rank(x) == 2) {
                 get_squares(x, 2, arr, NORTH);
-            }
+            } else get_squares(x, 1, arr, NORTH);
 
             int capture_coords[] = {x - 7, x - 9};
             if (is_valid_square(capture_coords[0]) && strcmp(get_piece_type(capture_coords[0]), "EMPTY") && get_rank(capture_coords[0]) != get_rank(x)) {
@@ -234,6 +234,15 @@ break;
 
         case W_QUEEN:
         case B_QUEEN:
+            get_squares(x, 8, arr, NORTH);
+            get_squares(x, 8, arr, SOUTH);
+            get_squares(x, 8, arr, EAST);
+            get_squares(x, 8, arr, WEST);
+            get_squares(x, 8, arr, NORTH_EAST);
+            get_squares(x, 8, arr, NORTH_WEST);
+            get_squares(x, 8, arr, SOUTH_EAST);
+            get_squares(x, 8, arr, SOUTH_WEST);
+            break;
 
         case W_KING:
         case B_KING: 
