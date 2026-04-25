@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <deque>
+#include <vector>
 #include <iostream>
 #include <string.h>
 
@@ -10,6 +11,9 @@
 using namespace std;
 
 Board::Board() {
+    PieceType p1[] = {W_PAWN, W_ROOK, W_KNIGHT, W_BISHOP, W_QUEEN, W_KING};
+    PieceType p2[] = {B_PAWN, B_ROOK, B_KNIGHT, B_BISHOP, B_QUEEN, B_KING};
+
     std::deque<PieceType> init_pos = {
         B_ROOK, B_KNIGHT, B_BISHOP, B_KING, B_QUEEN, B_BISHOP, B_KNIGHT, B_ROOK,
         B_PAWN, B_PAWN, B_PAWN, B_PAWN, B_PAWN, B_PAWN, B_PAWN, B_PAWN,
@@ -24,6 +28,11 @@ Board::Board() {
     for (auto& cell : cells) {
         cell.piece.type = init_pos.front();
         init_pos.pop_front();
+
+        for (int i = 0; i < 6; i++) {
+            if (cell.piece.type == p1[i]) cell.piece.player = PLAYER_A;
+            else cell.piece.player = PLAYER_B;
+        }
     }
 
     for (int i = 0; i < ROW_SIZE; i++) {
@@ -62,6 +71,13 @@ bool Board::is_valid_square(int x) {
     if (x >= 0 && x < 64) {
         return true;
     }
+
+    return false;
+}
+
+bool Board::is_friendly_piece(int selected_square, int target_square) {
+    if (cells[selected_square].piece.player == cells[target_square].piece.player)
+        return true;
 
     return false;
 }
