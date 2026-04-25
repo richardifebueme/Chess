@@ -19,7 +19,7 @@ class Board {
         char* get_piece_type(int x);
         void get_valid_moves(int arr_coord, int* moves_arr);
         void get_squares(int start_square, int rank, int* square_lst, Direction dir);
-        // void compute_valid_moves(char** square_lst, char* target_square);
+        void move_piece(int piece_square, int dest);
 
         Cell cells[64];
 };
