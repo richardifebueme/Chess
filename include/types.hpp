@@ -34,10 +34,17 @@ enum Direction {
 
 enum PieceType {
     EMPTY = 0,
-    W_PAWN, W_KNIGHT, W_BISHOP,
-    W_ROOK, W_QUEEN, W_KING,
-    B_PAWN, B_KNIGHT, B_BISHOP,
-    B_ROOK, B_QUEEN, B_KING,
+    B_PAWN, W_PAWN, 
+    B_KNIGHT, W_KNIGHT, 
+    B_BISHOP, W_BISHOP, 
+    B_ROOK, W_ROOK, 
+    B_QUEEN, W_QUEEN, 
+    B_KING, W_KING
+};
+
+enum Player {
+    PLAYER_A,
+    PLAYER_B,
 };
 
 struct ChessPiece {
@@ -45,7 +52,7 @@ struct ChessPiece {
     SDL_Rect dst;
     SDL_Point pos;
     PieceType type;
-    int piece_turn;
+    Player player;
     char square_notation[3];
 };
 
