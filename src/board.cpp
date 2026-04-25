@@ -257,6 +257,19 @@ void Board::get_squares(int start_square, int rank, int* square_lst, Direction d
     }
 }
 
+bool Board::is_valid_move(int start, int target) {
+    int moves_arr[28];
+    int size;
+
+    get_valid_moves(start, moves_arr);
+
+    size = moves_arr[0];
+    for (int i = 1; i <= size; i++) {
+        if (moves_arr[i] == target) return true;
+    }
+    return false;
+}
+
 void Board::move_piece(int selected_square, int target_square) {
     cells[target_square].piece.type = cells[selected_square].piece.type;
     cells[selected_square].piece.type = EMPTY;

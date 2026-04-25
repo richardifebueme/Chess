@@ -16,6 +16,7 @@ class RenderWindow {
         Board board;
         window_config win_desc = {"CHESS", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT};
         bool is_running;
+        int last_clicked = -1;
         int selected_square = -1;
     public:
         RenderWindow();
