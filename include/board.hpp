@@ -13,9 +13,11 @@ class Board {
         int get_rank(int x);
         bool is_valid_square(int x);
         bool is_friendly_piece(int selected_square, int target_square);
+        bool is_hostile_piece(int selected_square, int target_square);
         bool is_free_square(int selected_square, int target_square);
         bool is_adjacent_square(int selected_square, int target_square);
         bool is_empty_at(int square);
+        void get_piece_player(int square);
         int mouse_to_array(int x, int y);
         int square_to_arr(char* str);
         char* arr_to_square(int x);

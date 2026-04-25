@@ -31,7 +31,7 @@ Board::Board() {
 
         for (int i = 0; i < 6; i++) {
             if (cell.piece.type == p1[i]) cell.piece.player = PLAYER_A;
-            else cell.piece.player = PLAYER_B;
+            else if (cell.piece.type == p2[i]) cell.piece.player = PLAYER_B;
         }
     }
 
@@ -82,9 +82,17 @@ bool Board::is_friendly_piece(int selected_square, int target_square) {
     return false;
 }
 
+bool Board::is_hostile_piece(int selected_square, int target_square) {
+    if (cells[selected_square].piece.player != cells[target_square].piece.player)
+        return true;
+
+    return false;
+}
+
+
 bool Board::is_free_square(int selected_square, int target_square) {
 
-    return is_empty_at(target_square) || !is_friendly_piece(selected_square, target_square);
+    return (is_empty_at(target_square) || is_hostile_piece(selected_square, target_square));
 
 }
 
@@ -99,6 +107,11 @@ bool Board::is_empty_at(int square) {
     if (cells[square].piece.type == EMPTY) return true;
 
     return false;
+}
+
+void Board::get_piece_player(int square) {
+    if (cells[square].piece.player == PLAYER_A) cout << "A" << endl;
+    else cout << "B" << endl;
 }
 
 int Board::mouse_to_array(int x, int y) {
@@ -290,8 +303,7 @@ void Board::get_squares(int start_square, int rank, int* square_lst, Direction d
     for (int i = 1; i <= rank; i++) {
         val = start_square + (increment * i);
          curr_val = start_square + (increment * (i - 1));
-        // if (is_valid_square(val) && is_free_square(start_square, val)) { // and square_piece is either empty or held by a hostile piece -> is_free_square(val)
-        if (is_valid_square(val) && is_adjacent_square(curr_val, val) && is_free_square(start_square, val)) { // and square_piece is either empty or held by a hostile piece -> is_free_square(val)
+        if (is_valid_square(val) && is_adjacent_square(curr_val, val) && is_free_square(start_square, val)) { 
             square_lst[size + i] = val;
             square_lst[0]++;
         } else break;
