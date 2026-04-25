@@ -14,6 +14,7 @@ class Board {
         bool is_valid_square(int x);
         bool is_friendly_piece(int selected_square, int target_square);
         bool is_free_square(int selected_square, int target_square);
+        bool is_adjacent_square(int selected_square, int target_square);
         bool is_empty_at(int square);
         int mouse_to_array(int x, int y);
         int square_to_arr(char* str);

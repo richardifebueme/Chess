@@ -164,7 +164,7 @@ void RenderWindow::handle_inputs() {
                 last_clicked = board.mouse_to_array(event.button.x, event.button.y);
             } else if (event.button.button == SDL_BUTTON_RIGHT) {
                 int btn_coord = board.mouse_to_array(event.button.x, event.button.y);
-                cout << board.get_piece_type(btn_coord) << endl;
+                cout << btn_coord << endl;
             }
         }
 	}
