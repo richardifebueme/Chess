@@ -16,15 +16,14 @@ class RenderWindow {
         Board board;
         window_config win_desc = {"CHESS", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT};
         bool is_running;
-        int selected_x = -1;
-        int selected_y = -1;
+        int selected_square = -1;
     public:
         RenderWindow();
         void load_board();
         SDL_Texture* load_texture(const char* filepath);
         void load_pieces();
         SDL_Texture* load_piece_texture(PieceType type);
-        void display_valid_moves(int x, int y);
+        void display_valid_moves(int square);
         void render();
         void handle_inputs();
         void cleanUp();

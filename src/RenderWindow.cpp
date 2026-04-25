@@ -85,16 +85,16 @@ void RenderWindow::load_pieces() {
     }
 }
 
-void RenderWindow::display_valid_moves(int x, int y) {
+void RenderWindow::display_valid_moves(int square) {
     // SDL_SetRenderDrawBlendMode(rend, SDL_BLENDMODE_BLEND);
     // SDL_SetRenderDrawColor(rend, 0, 0, 0, 100); // semi-transparent
     SDL_SetRenderDrawColor(rend, 255, 255, 255, 255);
 
-    if (!board.is_empty_at(x, y)) {
+    if (!board.is_empty_at(square)) {
 
         // get valid moves
         int moves_arr[28];
-        board.get_valid_moves(board.mouse_to_array(x, y), moves_arr);
+        board.get_valid_moves(square, moves_arr);
 
         int size = moves_arr[0];
         if (size == -1) return;
@@ -115,8 +115,8 @@ void RenderWindow::render() {
     load_board();
     load_pieces();
 
-    if (selected_x != -1 && selected_y != -1) {
-        display_valid_moves(selected_x, selected_y);
+    if (selected_square != -1) {
+        display_valid_moves(selected_square);
     }
 
 	SDL_RenderPresent(rend);
@@ -134,8 +134,7 @@ void RenderWindow::handle_inputs() {
 			}
 		} else if (event.type == SDL_MOUSEBUTTONDOWN) {
             if (event.button.button == SDL_BUTTON_LEFT) {
-                selected_x = event.button.x;
-                selected_y = event.button.y;
+                selected_square = board.mouse_to_array(event.button.x, event.button.y);
             } else if (event.button.button == SDL_BUTTON_RIGHT) {
                 int btn_coord = board.mouse_to_array(event.button.x, event.button.y);
                 cout << btn_coord << endl;
