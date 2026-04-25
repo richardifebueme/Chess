@@ -82,9 +82,10 @@ bool Board::is_friendly_piece(int selected_square, int target_square) {
     return false;
 }
 
-bool Board::is_free_square(int x) {
-    // TODO
-    return true;
+bool Board::is_free_square(int selected_square, int target_square) {
+
+    return is_empty_at(target_square) || !is_friendly_piece(selected_square, target_square);
+
 }
 
 bool Board::is_empty_at(int square) {
@@ -271,7 +272,7 @@ void Board::get_squares(int start_square, int rank, int* square_lst, Direction d
     int size = square_lst[0];
     for (int i = 1; i <= rank; i++) {
         val = start_square + (increment * i);
-        if (is_valid_square(val) && is_free_square(val)) { // and square_piece is either empty or held by a hostile piece -> is_free_square(val)
+        if (is_valid_square(val) && is_free_square(start_square, val)) { // and square_piece is either empty or held by a hostile piece -> is_free_square(val)
             square_lst[size + i] = val;
             square_lst[0]++;
         }
