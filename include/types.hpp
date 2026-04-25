@@ -45,6 +45,7 @@ struct ChessPiece {
     SDL_Rect dst;
     SDL_Point pos;
     PieceType type;
+    int piece_turn;
     char square_notation[3];
 };
 
